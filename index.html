@@ -1,0 +1,148 @@
+<style>
+	* {
+		box-sizing: border-box;
+		margin: 0;
+		padding: 0;
+	}
+
+	.scroll .main {
+		height: calc(100vh - 60px);
+		overflow: auto;
+	}
+
+	.scroll .container {
+		max-width: 600px;
+		margin: auto;
+		padding: 10px;
+	}
+
+	.scroll .item {
+		border: 1px solid #bbb;
+		padding: 10px;
+	}
+
+	.scroll .item:not(:last-child) {
+		border-bottom: none;
+	}
+
+	.scroll .item-title,
+	.scroll .item-subtitle {
+		height: 15px;
+		background: #ccc;
+	}
+
+	.scroll .item-title {
+		margin-bottom: 10px;
+	}
+
+	.scroll .page {
+		border: 2px solid red;
+		border-top: none;
+		position: relative;
+	}
+
+	.scroll .page:first-of-type {
+		border-top: 2px solid red;
+	}
+
+	.scroll .page::before {
+		content: attr(data-page);
+		position: absolute;
+		top: 0;
+		left: 0;
+		background: #fff;
+		font-size: 30px;
+		width: 50px;
+		height: 50px;
+		text-align: center;
+		line-height: 50px;
+		border-bottom: 2px solid #000;
+		border-right: 2px solid #000;
+	}
+
+	.scroll .load-button {
+		text-align: center;
+		padding: 5px;
+		border: 1px solid #bbb;
+		cursor: pointer;
+	}
+
+	.scroll .load-button:hover {
+		background: #eee;
+	}
+
+	.scroll .navigation {
+		border-top: 1px solid #ccc;
+		position: fixed;
+		background: #fff;
+		left: 0;
+		right: 0;
+	}
+
+	.scroll .navigation-block {
+		display: flex;
+		bottom: 0;
+		max-width: 604px;
+		margin: auto;
+		padding: 10px;
+		justify-content: center;
+	}
+
+	.scroll .navigation-item {
+		width: 60px;
+		height: 40px;
+		text-align: center;
+		line-height: 40px;
+		cursor: pointer;
+		background: #bbb;
+		border: 2px solid #fff;
+		color: #fff;
+		user-select: none;
+	}
+
+	.scroll .navigation-item:hover,
+	.scroll .navigation-item--current {
+		background: #999;
+	}
+</style>
+<div class="scroll">
+	<div class="main">
+		<div class="container"></div>
+	</div>
+	<div class="navigation">
+		<div class="navigation-block">
+			<div class="navigation-item navigation-item--prev">&lt;</div>
+			<div class="navigation-item navigation-item--next">&gt;</div>
+		</div>
+	</div>
+</div>
+
+<script src="scroll.js"></script>
+<script>
+	const get = (root, el) => root.querySelector(el);
+	const list = (root, el) => Array.from(root.querySelectorAll(el));
+	const root = get(document, '.scroll');
+
+	const rand = (min, max) => Math.round(Math.random() * (max - min) + min);
+
+	scroll(root, {
+		addItem: number => {
+			const item = document.createElement('div');
+			item.className = 'item';
+
+			const title = document.createElement('div');
+			title.className = 'item-title';
+			title.style.width = `${rand(20, 90)}%`;
+
+			const subtitle = document.createElement('div');
+			subtitle.className = 'item-subtitle';
+			subtitle.style.width = `${rand(20, 90)}%`;
+
+			item.appendChild(title);
+			item.appendChild(subtitle);
+
+			return item;
+		}
+	})
+
+</script>
